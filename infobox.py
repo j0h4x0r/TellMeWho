@@ -7,6 +7,7 @@ api_key = ''
 # api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
 def main(api_k, query):
+    global api_key
     api_key = api_k
     data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
     result,type_list_name = assemble_infobox(data, type_list, matching.information_map,type_list_name)
