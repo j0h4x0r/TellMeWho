@@ -13,8 +13,8 @@ accepted_type_list = OrderedDict([
 	('/sports/professional-_sports_team', 'SportsTeam'),
 ])
 
-information_map = {
-	'/people/person': {
+information_map = OrderedDict([
+	('/people/person', {
 		'/type/object/name': 'Name',
 		'/people/person/date_of_birth': 'Birthday',
 		'/people/person/place_of_birth': 'Place of Birth',
@@ -34,19 +34,19 @@ information_map = {
 			},
 		},
 		'/common/topic/description': 'Description',
-	},
-	'/people/deceased_person': {
+	}),
+	('/people/deceased_person', {
 		'/people/deceased_person/date_of_death': 'Death Date',
 		'/people/deceased_person/place_of_death': 'Death Place',
 		'/people/deceased_person/cause_of_death': 'Death Cause',
-	},
-	'/book/author': {
+	}),
+	('/book/author', {
 		'/book/author/works_written': 'Books',
 		'/book/book_subject/works': 'Books About The Author',
 		'/influence/influence_node/influenced': 'Influenced',
 		'/influence/influence_node/influenced_by': 'Influenced By',
-	},
-	'/film/actor': {
+	}),
+	('/film/actor', {
 		'/film/actor/film': {
 			'name': 'Films',
 			'children': {
@@ -54,8 +54,8 @@ information_map = {
 				'/film/performance/film': 'Film',
 			},
 		},
-	},
-	'/tv/tv_actor': {
+	}),
+	('/tv/tv_actor', {
 		'/tv/tv_actor/guest_roles': {
 			'name': 'TV Series',
 			'children': {
@@ -70,11 +70,11 @@ information_map = {
 				'/tv/regular_tv_appearance/series': 'TV Series',
 			},
 		},
-	},
-	'/organization/organization_founder': {
+	}),
+	('/organization/organization_founder', {
 		'/organization/organization_founder/organizations_founded': 'Founded',
-	},
-	'/business/board_member': {
+	}),
+	('/business/board_member', {
 		'/business/board_member/leader_of': {
 			'name': 'Leadership',
 			'children': {
@@ -95,8 +95,8 @@ information_map = {
 				'/organization/organization_board_membership/title': 'Title',
 			},
 		},
-	},
-	'/sports/sports_league': {
+	}),
+	('/sports/sports_league', {
 		'/type/object/name': 'Name',
 		'/sports/sports_league/championship': 'Championship',
 		'/sports/sports_league/sport': 'Sport',
@@ -109,8 +109,8 @@ information_map = {
 				'/sports/sports_league_participation/team': 'Team',
 			},
 		},
-	},
-	'/sports/sports_team': {
+	}),
+	('/sports/sports_team', {
 		'/type/object/name': 'Name',
 		'/common/topic/description': 'Description',
 		'/sports/sports_team/sport': 'Sport',
@@ -143,8 +143,8 @@ information_map = {
 				'/sports/sports_team_roster/to': 'To',
 			},
 		},
-	},
-	'/sports/professional_sports_team': {
+	}),
+	('/sports/professional_sports_team', {
 		### empty
-	},
-}
+	}),
+])

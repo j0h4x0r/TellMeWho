@@ -1,13 +1,15 @@
 import urllib, json
 #import infobox
 
-api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
+api_key = ''
 mqlread_url = 'https://www.googleapis.com/freebase/v1/mqlread'
 
-def main():
-	x = extractX('Who created Microsoft?')
+def run(key, question):
+	global api_key 
+	api_key = key
+	x = extractX(question)
 	if x == '':
-		print 'Invalid Question'
+		print 'Wrong Question!'
 		return
 	type_list = findType(x)
 	result = []
@@ -77,5 +79,8 @@ def MQLquery(x, ans_type):
 				ans += ', ' + item[query_point][i]['a:name']
 		result.append(ans)
 	return result
+
+def main():
+	run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Who created Microsoft?')
 
 if __name__ == '__main__': main()
