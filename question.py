@@ -1,5 +1,7 @@
 import urllib, json
 #import infobox
+from collections import OrderedDict
+from printable import print_table
 
 api_key = ''
 mqlread_url = 'https://www.googleapis.com/freebase/v1/mqlread'
@@ -16,7 +18,9 @@ def run(key, question):
 	for t in type_list:
 		result += MQLquery(x, t)
 	result.sort()
-	print result
+	#print result
+	#result.insert(0, ('Name', ''))
+	print_table(OrderedDict(result))
 
 def extractX(question):
 	x = ''
@@ -66,18 +70,25 @@ def MQLquery(x, ans_type):
 	response = json.loads(urllib.urlopen(url).read())['result']
 
 	# parse response
+	# result = []
+	# for item in response:
+	# 	ans = item['name'] + '(as ' + ans_type + ') created '
+	# 	fullname_len = len(item[query_point])
+	# 	for i in range(fullname_len):
+	# 		if i == 0:
+	# 			ans += item[query_point][i]['a:name']
+	# 		elif i == fullname_len - 1:
+	# 			ans += ' and ' + item[query_point][i]['a:name'] + '.'
+	# 		else:
+	# 			ans += ', ' + item[query_point][i]['a:name']
+	# 	result.append(ans)
 	result = []
 	for item in response:
-		ans = item['name'] + '(as ' + ans_type + ') created '
+		creations = []
 		fullname_len = len(item[query_point])
 		for i in range(fullname_len):
-			if i == 0:
-				ans += item[query_point][i]['a:name']
-			elif i == fullname_len - 1:
-				ans += ' and ' + item[query_point][i]['a:name'] + '.'
-			else:
-				ans += ', ' + item[query_point][i]['a:name']
-		result.append(ans)
+			creations.append({'As': ans_type, 'Creation': item[query_point][i]['a:name']})
+		result.append((item['name'], creations))
 	return result
 
 def main():
