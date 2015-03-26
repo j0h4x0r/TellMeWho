@@ -4,7 +4,29 @@ api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 mqlread_url = 'https://www.googleapis.com/freebase/v1/mqlread'
 
 def main():
-	MQLquery('Microsoft', 'BusinessPerson')
+	x = extractX('Who created Microsoft cewnov?')
+	if x == '':
+		print 'Invalid Question'
+		return
+	print x
+	type_list = findType(x)
+	result = []
+	for t in type_list:
+		result += MQLquery(x, t)
+	result.sort()
+	print result
+
+def extractX(question):
+	x = ''
+	if question.startswith('Who created ') or question.startswith('who created '):
+		tokens = question.split()[2:]
+		for t in tokens:
+			x += t.strip('?') + ' '
+		x.strip()
+	return x
+
+def findType(x):
+	return 
 
 def MQLquery(x, ans_type):
 	# build query
@@ -47,6 +69,6 @@ def MQLquery(x, ans_type):
 			else:
 				ans += ', ' + item[query_point][i]['a:name']
 		result.append(ans)
-	print result
+	return result
 
 if __name__ == '__main__': main()
