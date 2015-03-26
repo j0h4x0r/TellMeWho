@@ -130,9 +130,5 @@ def assemble_infobox(data, typeid_list, information_map):
 
 
 
-
-
-
-
 if __name__ == '__main__': main()
 

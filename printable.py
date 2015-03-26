@@ -1,6 +1,7 @@
 from collections import OrderedDict
 __author__ = 'CC'
 from collections import defaultdict
+from itertools import izip_longest
 
 total = defaultdict(list)
 
@@ -55,7 +56,6 @@ def print_table(data):
                                 print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + last_colwidth.format(list_s[i])+"|",
                         else:
                             print last_colwidth.format(str(inner_value)) + "|",
-
                     #previous columns
                     else:
                         #auto break-line
