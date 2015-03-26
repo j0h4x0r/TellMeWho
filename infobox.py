@@ -5,7 +5,7 @@ import pprint
 api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
 def main():
-    data, type_list = topic(search('Tom Jones'))
+    data, type_list = topic(search('Tom Jones'), matching.accepted_type_list)
     result = assemble_infobox(data, type_list, matching.information_map)
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(result)
@@ -24,7 +24,7 @@ def search(query):
         result_mid.append(result['mid'])
     return result_mid
 
-def topic(result_mid):
+def topic(result_mid, accepted_type_list):
     service_url = 'https://www.googleapis.com/freebase/v1/topic'
     params = {
         'key': api_key
@@ -34,11 +34,11 @@ def topic(result_mid):
         topic = json.loads(urllib.urlopen(url).read())
         type_list=[]
         re_types_list = topic['property']['/type/object/type']['values']
-        for ac_types in matching.accepted_type_list.keys():
+        for ac_types in accepted_type_list.keys():
             for re_types in re_types_list:
                 if(re_types['id'].encode("ascii") == ac_types):
                     type_list.append(ac_types)
-        valid_type_list = valid_topic(type_list, matching.accepted_type_list)
+        valid_type_list = valid_topic(type_list, accepted_type_list)
         if len(valid_type_list) is not 0:
             return topic, valid_type_list
     return {}, []

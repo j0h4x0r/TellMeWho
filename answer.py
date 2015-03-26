@@ -1,14 +1,14 @@
 import urllib, json
+#import infobox
 
 api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 mqlread_url = 'https://www.googleapis.com/freebase/v1/mqlread'
 
 def main():
-	x = extractX('Who created Microsoft cewnov?')
+	x = extractX('Who created Microsoft?')
 	if x == '':
 		print 'Invalid Question'
 		return
-	print x
 	type_list = findType(x)
 	result = []
 	for t in type_list:
@@ -26,7 +26,14 @@ def extractX(question):
 	return x
 
 def findType(x):
-	return 
+	# accepted_type_list = {'/book/book': 'Author', '/organization/organization': 'BusinessPerson'}
+	# _, type_list = infobox.topic(infobox.search(x), accepted_type_list)
+	# result = []
+	# for t in accepted_type_list:
+	# 	if t in type_list:
+	# 		result.append(accepted_type_list[t])
+	# return result
+	return ['Author', 'BusinessPerson']
 
 def MQLquery(x, ans_type):
 	# build query
