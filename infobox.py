@@ -83,21 +83,43 @@ def assemble_infobox(data, typeid_list, information_map):
                         result[info_values['name']] = tmp_text
                 # if nested property only has more than one key, add name as key
                 else:
-                    result[info_values['name']] = {}
-                    for nested_key, nested_value in info_values['children'].iteritems():
-                        tmp_text=[]
-                        for text_list in data['property'][info_keys]['values']:
+                    # result[info_values['name']] = {}
+                    # for nested_key, nested_value in info_values['children'].iteritems():
+                    #     tmp_text=[]
+                    #     for text_list in data['property'][info_keys]['values']:
+                    #         try:
+                    #             for inner_text_list in text_list['property'][nested_key]['values']:
+                    #                 val = inner_text_list['text']
+                    #                 try:
+                    #                     val = inner_text_list['value']
+                    #                 except KeyError:
+                    #                     pass
+                    #                 tmp_text.append(val)
+                    #         except KeyError:
+                    #             tmp_text.append('')
+                    #     result[info_values['name']][nested_value] = tmp_text
+
+                    result[info_values['name']] = []
+                    for text_list in data['property'][info_keys]['values']:
+                        tmp_dict = {}
+                        for nested_key, nested_value in info_values['children'].iteritems():
                             try:
-                                for inner_text_list in text_list['property'][nested_key]['values']:
-                                    val = inner_text_list['text']
+                                if len(text_list['property'][nested_key]['values']) == 0:
+                                    val = ''
+                                else:
+                                    inner_most_dict = text_list['property'][nested_key]['values'][0]
+                                    val = inner_most_dict['text']
                                     try:
-                                        val = inner_text_list['value']
+                                        val = inner_most_dict['value']
                                     except KeyError:
                                         pass
-                                    tmp_text.append(val)
+
+                                tmp_dict[nested_value] = val
+
                             except KeyError:
-                                tmp_text.append('')
-                        result[info_values['name']][nested_value] = tmp_text
+                                tmp_dict[nested_value] = ''
+                        result[info_values['name']].append(tmp_dict)
+
     return result
 
 
