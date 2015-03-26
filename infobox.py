@@ -1,11 +1,12 @@
 import urllib, json
 import matching
 import pprint
+from collections import OrderedDict
 
 api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
 def main():
-    data, type_list = topic(search('Tom Jones'), matching.accepted_type_list)
+    data, type_list = topic(search('Elon Musk'), matching.accepted_type_list)
     result = assemble_infobox(data, type_list, matching.information_map)
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(result)
@@ -51,7 +52,7 @@ def valid_topic(type_list, accepted_type_list):
     return valid_type_list
 
 def assemble_infobox(data, typeid_list, information_map):
-    result = {}
+    result = OrderedDict()
     for one_type in typeid_list:
         info_dict = information_map[one_type]
         for info_keys, info_values in info_dict.iteritems():
