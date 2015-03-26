@@ -10,13 +10,28 @@ colwidth0="{0:<"+str(left_header)+"}"
 colwidth1="{0:<"+str(whole)+"}"
 colwidth2="{0:<"+str(one_half)+"}"
 colwidth3="{0:<"+str(one_fourth)+"}"
+colwidth4="{0:<"+str(whole+left_header+3)+"}"
 
 
 
 # Printer
-def print_table(data):
-    # for key, values in data.iteritems():
-        # print key, ':', values, ':', len(values)
+def print_table(data, *arglist):
+    #print header
+    if len(arglist) is not 0:
+        type_list_name = arglist[0]
+        if len(type_list_name) is not 0:
+            name = str(data["Name"][0].encode('ascii', 'ignore')) + "("
+            for i in xrange(len(type_list_name)):
+                if len(type_list_name) >=1 and type_list_name[i] == 'Person':
+                    continue
+                if i is not len(type_list_name)-1:
+                    name = name + ' '+type_list_name[i] + ','
+                else:
+                    name = name + ' ' + type_list_name[i] + ')'
+            print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
+            print "| "  + colwidth4.format(name) + " |"
+
+    #print the rest
     for key, values in data.iteritems():
         #if value is list, just print list
         if len(values)==0:
@@ -51,7 +66,7 @@ def print_table(data):
                             #     print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + last_colwidth.format(list_s[i])+"|",
                         else:
  
-                            lines_str.append([last_colwidth.format(str(inner_value))])
+                            lines_str.append([last_colwidth.format(str(inner_value.encode('ascii','ignore')))])
                             #print last_colwidth.format(str(inner_value)) + "|",
 
                     #previous columns
@@ -66,7 +81,7 @@ def print_table(data):
                             #     print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + tmp_colwidth.format(str(list_s[i]))+"|",
                             # # print "\n|" + left_header*"-" + ((whole+3))*"-" + "-|"
                         else:
-                            lines_str.append([tmp_colwidth.format(str(inner_value))])
+                            lines_str.append([tmp_colwidth.format(str(inner_value.encode('ascii','ignore')))])
                             #print tmp_colwidth.format(str(inner_value)) + "|",
 
                 for tup in izip_longest(*lines_str):
@@ -109,7 +124,7 @@ def print_table(data):
                     if(i==0):
                         print colwidth1.format(values[i])+"|",
                     else:
-                        print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i])+"|",
+                        print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i].encode('ascii', 'replace'))+"|",
                 print ""
 
     print "|" + left_header*"-" + ((whole+3))*"-" + "-|"

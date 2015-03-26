@@ -3,14 +3,14 @@ import matching
 import pprint
 from collections import OrderedDict
 from printable import print_table
+api_key = ''
+# api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
-api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
-
-def main():
-    data, type_list = topic(search('Elon Musk'), matching.accepted_type_list)
-    result = assemble_infobox(data, type_list, matching.information_map)
-    print result
-    print_table(result)
+def main(api_k, query):
+    api_key = api_k
+    data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
+    result,type_list_name = assemble_infobox(data, type_list, matching.information_map,type_list_name)
+    print_table(result,type_list_name)
 
 
 
@@ -35,16 +35,18 @@ def topic(result_mid, accepted_type_list):
     for topic_id in result_mid:
         url = service_url + topic_id + '?' + urllib.urlencode(params)
         topic = json.loads(urllib.urlopen(url).read())
-        type_list=[]
+        type_list = []
+        type_list_name = []
         re_types_list = topic['property']['/type/object/type']['values']
         for ac_types in accepted_type_list.keys():
             for re_types in re_types_list:
                 if(re_types['id'].encode("ascii") == ac_types):
                     type_list.append(ac_types)
+                    type_list_name.append(re_types['text'])
         valid_type_list = valid_topic(type_list, accepted_type_list)
         if len(valid_type_list) is not 0:
-            return topic, valid_type_list
-    return {}, []
+            return topic, valid_type_list, type_list_name
+    return {}, [], []
 
 def valid_topic(type_list, accepted_type_list):
     valid_type_list=[]
@@ -53,7 +55,7 @@ def valid_topic(type_list, accepted_type_list):
             valid_type_list.append(types)
     return valid_type_list
 
-def assemble_infobox(data, typeid_list, information_map):
+def assemble_infobox(data, typeid_list, information_map,type_list_name):
     result = OrderedDict()
     for one_type in typeid_list:
         info_dict = information_map[one_type]
@@ -129,7 +131,7 @@ def assemble_infobox(data, typeid_list, information_map):
                                 tmp_dict[nested_value] = ''
                         result[info_values['name']].append(tmp_dict)
 
-    return result
+    return result,type_list_name
 
 
 
