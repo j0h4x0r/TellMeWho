@@ -34,18 +34,18 @@ information_map = OrderedDict([
 			},
 		},
 		'/common/topic/description': 'Description',
-	),
+	}),
 	('/people/deceased_person', {
 		'/people/deceased_person/date_of_death': 'Death Date',
 		'/people/deceased_person/place_of_death': 'Death Place',
 		'/people/deceased_person/cause_of_death': 'Death Cause',
-	),
+	}),
 	('/book/author', {
 		'/book/author/works_written': 'Books',
 		'/book/book_subject/works': 'Books About The Author',
 		'/influence/influence_node/influenced': 'Influenced',
 		'/influence/influence_node/influenced_by': 'Influenced By',
-	),
+	}),
 	('/film/actor', {
 		'/film/actor/film': {
 			'name': 'Films',
@@ -54,7 +54,7 @@ information_map = OrderedDict([
 				'/film/performance/film': 'Film',
 			},
 		},
-	),
+	}),
 	('/tv/tv_actor', {
 		'/tv/tv_actor/guest_roles': {
 			'name': 'TV Series',
@@ -70,10 +70,10 @@ information_map = OrderedDict([
 				'/tv/regular_tv_appearance/series': 'TV Series',
 			},
 		},
-	),
+	}),
 	('/organization/organization_founder', {
 		'/organization/organization_founder/organizations_founded': 'Founded',
-	),
+	}),
 	('/business/board_member', {
 		'/business/board_member/leader_of': {
 			'name': 'Leadership',
@@ -95,7 +95,7 @@ information_map = OrderedDict([
 				'/organization/organization_board_membership/title': 'Title',
 			},
 		},
-	),
+	}),
 	('/sports/sports_league', {
 		'/type/object/name': 'Name',
 		'/sports/sports_league/championship': 'Championship',
@@ -109,7 +109,7 @@ information_map = OrderedDict([
 				'/sports/sports_league_participation/team': 'Team',
 			},
 		},
-	),
+	}),
 	('/sports/sports_team', {
 		'/type/object/name': 'Name',
 		'/common/topic/description': 'Description',
@@ -143,8 +143,8 @@ information_map = OrderedDict([
 				'/sports/sports_team_roster/to': 'To',
 			},
 		},
-	),
+	}),
 	('/sports/professional_sports_team', {
 		### empty
-	),
+	}),
 ])
