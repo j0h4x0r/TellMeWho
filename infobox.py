@@ -6,8 +6,13 @@ from printable import print_table
 api_key = ''
 # api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
+<<<<<<< HEAD
 def main(api_k, query):
     global api_key 
+=======
+def run(api_k, query):
+    global api_key
+>>>>>>> a1cf3eef8db4af0e06f83cc1cc2d6bb6feebaf12
     api_key = api_k
     data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
     result,type_list_name = assemble_infobox(data, type_list, matching.information_map,type_list_name)
@@ -135,5 +140,15 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
     return result,type_list_name
 
 
+<<<<<<< HEAD
 if __name__ == '__main__': main()
+=======
+
+
+#Question Answering
+
+
+
+if __name__ == '__main__': run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Tolkien')
+>>>>>>> a1cf3eef8db4af0e06f83cc1cc2d6bb6feebaf12
 

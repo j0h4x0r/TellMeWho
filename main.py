@@ -11,22 +11,23 @@ def main():
 		usage()
 		sys.exit(2)
 	opt_dict, mode = check_args(opts)
+	print opt_dict
 	api_key = opt_dict['k']
 	# run according to mode
 	if mode == 1:
 		if opt_dict['t'] == 'infobox':
-			infobox.main(api_key, opt_dict['q'])
+			infobox.run(api_key, opt_dict['q'])
 		elif opt_dict['t'] == 'question':
-			question.run(api_key, opt_dict['q'])
+			question.run(api_key, opt_dict['q'], mode)
 	elif mode == 2:
 		f = open(opt_dict['f'])
 		for line in f.readlines():
 			line = line.strip('\r\n')
 			print 'Query-Question: ' + line + '\n'
 			if opt_dict['t'] == 'infobox':
-				infobox.main(api_key, line)
+				infobox.run(api_key, line)
 			elif opt_dict['t'] == 'question':
-				question.run(api_key, line)
+				question.run(api_key, line, mode)
 			print ''
 	elif mode == 3:
 		try:
@@ -34,9 +35,9 @@ def main():
 				query = raw_input('fb_ibox> ')
 				print 'Let me see...'
 				if query.startswith('Who created ') or query.startswith('who created '):
-					question.run(api_key, query)
+					question.run(api_key, query, mode)
 				else:
-					infobox.main(api_key, query)
+					infobox.run(api_key, query)
 		except KeyboardInterrupt:
 			sys.exit(0)
 
