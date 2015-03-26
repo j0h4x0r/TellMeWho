@@ -34,8 +34,8 @@ information_map = {
 		'/common/topic/description': 'Description',
 	},
 	'/people/deceased_person': {
-		'/people/deceased_person/date_of_death': 'Death Place',
-		'/people/deceased_person/place_of_burial': 'Death Date',
+		'/people/deceased_person/date_of_death': 'Death Date',
+		'/people/deceased_person/place_of_burial': 'Death Place',
 		'/people/deceased_person/cause_of_death': 'Death Cause',
 	},
 	'/book/author': {
@@ -53,7 +53,7 @@ information_map = {
 			},
 		},
 	},
-	'tv/tv_actor': {
+	'/tv/tv_actor': {
 		'/tv/tv_actor/guest_roles': {
 			'name': 'TV Series',
 			'children': {
@@ -69,10 +69,10 @@ information_map = {
 			},
 		},
 	},
-	'organization/organization_founder': {
+	'/organization/organization_founder': {
 		'/organization/organization_founder/organizations_founded': 'Founded',
 	},
-	'business/board_member': {
+	'/business/board_member': {
 		'/business/board_member/leader_of': {
 			'name': 'Leadership',
 			'children': {
@@ -94,7 +94,7 @@ information_map = {
 			},
 		},
 	},
-	'sports/sports_league': {
+	'/sports/sports_league': {
 		'/type/object/name': 'Name',
 		'/sports/sports_league/championship': 'Championship',
 		'/sports/sports_league/sport': 'Sport',
@@ -108,7 +108,7 @@ information_map = {
 			},
 		},
 	},
-	'sports/sports_team': {
+	'/sports/sports_team': {
 		'/type/object/name': 'Name',
 		'/common/topic/description': 'Description',
 		'/sports/sports_team/sport': 'Sport',
@@ -142,7 +142,7 @@ information_map = {
 			},
 		},
 	},
-	'sports/professional_sports_team': {
+	'/sports/professional_sports_team': {
 		### empty
 	},
 }
