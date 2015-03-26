@@ -6,7 +6,7 @@ from printable import print_table
 api_key = ''
 # api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
-def main(api_k, query):
+def run(api_k, query):
     global api_key
     api_key = api_k
     data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
@@ -141,5 +141,5 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
 
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__': run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Tolkien')
 

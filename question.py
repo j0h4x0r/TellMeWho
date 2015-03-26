@@ -6,7 +6,7 @@ from printable import print_table
 api_key = ''
 mqlread_url = 'https://www.googleapis.com/freebase/v1/mqlread'
 
-def run(key, question):
+def run(key, question, mode):
 	global api_key 
 	api_key = key
 	x = extractX(question)
@@ -16,11 +16,17 @@ def run(key, question):
 	type_list = findType(x)
 	result = []
 	for t in type_list:
-		result += MQLquery(x, t)
+		result += MQLquery(x, t, mode)
 	result.sort()
 	#print result
 	#result.insert(0, ('Name', ''))
-	print_table(OrderedDict(result))
+	if mode == 3:
+		print_table(OrderedDict(result))
+	else:
+		counter = 0
+		for item in result:
+			counter += 1
+			print str(counter) + '. ' + item
 
 def extractX(question):
 	x = ''
@@ -41,7 +47,7 @@ def findType(x):
 	# return result
 	return ['Author', 'BusinessPerson']
 
-def MQLquery(x, ans_type):
+def MQLquery(x, ans_type, mode):
 	# build query
 	if ans_type == 'Author':
 		ans_point = "/book/author"
@@ -70,25 +76,27 @@ def MQLquery(x, ans_type):
 	response = json.loads(urllib.urlopen(url).read())['result']
 
 	# parse response
-	# result = []
-	# for item in response:
-	# 	ans = item['name'] + '(as ' + ans_type + ') created '
-	# 	fullname_len = len(item[query_point])
-	# 	for i in range(fullname_len):
-	# 		if i == 0:
-	# 			ans += item[query_point][i]['a:name']
-	# 		elif i == fullname_len - 1:
-	# 			ans += ' and ' + item[query_point][i]['a:name'] + '.'
-	# 		else:
-	# 			ans += ', ' + item[query_point][i]['a:name']
-	# 	result.append(ans)
-	result = []
-	for item in response:
-		creations = []
-		fullname_len = len(item[query_point])
-		for i in range(fullname_len):
-			creations.append({'As': ans_type, 'Creation': item[query_point][i]['a:name']})
-		result.append((item['name'], creations))
+	if mode == 3:
+		result = []
+		for item in response:
+			creations = []
+			fullname_len = len(item[query_point])
+			for i in range(fullname_len):
+				creations.append({'As': ans_type, 'Creation': item[query_point][i]['a:name']})
+			result.append((item['name'], creations))
+	else:
+		result = []
+		for item in response:
+			ans = item['name'] + '(as ' + ans_type + ') created '
+			fullname_len = len(item[query_point])
+			for i in range(fullname_len):
+				if i == 0:
+					ans += '<' + item[query_point][i]['a:name'] + '>'
+				elif i == fullname_len - 1:
+					ans += ' and <' + item[query_point][i]['a:name'] + '>.'
+				else:
+					ans += ', <' + item[query_point][i]['a:name'] + '>'
+			result.append(ans)
 	return result
 
 def main():
