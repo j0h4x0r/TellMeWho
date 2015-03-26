@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9dd0d12-ba5f-49d2-99f5-e75edb40adb3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/infobox.py" afterPath="$PROJECT_DIR$/infobox.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="f9dd0d12-ba5f-49d2-99f5-e75edb40adb3" name="Default" comment="" />
     <ignored path="TellMeWho.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,7 +27,7 @@
       <file leaf-file-name="infobox.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/infobox.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1291866" vertical-offset="0" max-vertical-offset="2592">
+            <state vertical-scroll-proportion="-2.7129188" vertical-offset="1188" max-vertical-offset="2592">
               <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -427,7 +424,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/infobox.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1291866" vertical-offset="0" max-vertical-offset="2592">
+        <state vertical-scroll-proportion="-2.7129188" vertical-offset="1188" max-vertical-offset="2592">
           <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
