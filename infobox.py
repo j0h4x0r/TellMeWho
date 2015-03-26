@@ -86,8 +86,8 @@ def assemble_infobox(data, typeid_list, information_map):
                     result[info_values['name']] = {}
                     for nested_key, nested_value in info_values['children'].iteritems():
                         tmp_text=[]
-                        try:
-                            for text_list in data['property'][info_keys]['values']:
+                        for text_list in data['property'][info_keys]['values']:
+                            try:
                                 for inner_text_list in text_list['property'][nested_key]['values']:
                                     val = inner_text_list['text']
                                     try:
@@ -95,8 +95,8 @@ def assemble_infobox(data, typeid_list, information_map):
                                     except KeyError:
                                         pass
                                     tmp_text.append(val)
-                        except KeyError:
-                            pass
+                            except KeyError:
+                                tmp_text.append('')
                         result[info_values['name']][nested_value] = tmp_text
     return result
 

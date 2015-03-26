@@ -22,7 +22,7 @@ ipList=['192.168.0.5','192.168.0.20','192.168.0.10']
 #     'Name': [u'Tom Jones'],
 #     'Birthday': [u'1940-06-07'],
 #     'Description': [   u'Sir Thomas Jones Woodward, OBE, known by his stage name Tom Jones, is a Welsh singer. He became...'],
-#     'Films': {   'Character': [], 'Film': []},
+
 #     'Place of Birth': [u'Treforest'],
 #     'Siblings': [u'Shelia Woodward'],
 #     'Spouse(s)': {   'Ceremony Location': [],
@@ -46,32 +46,75 @@ ipList=['192.168.0.5','192.168.0.20','192.168.0.10']
 data = {
     'Name': [u'Tom Jones', 'JD', 'SB'],
     'Birthday': [u'1940-06-07'],
+    'Films': {   'Character': [], 'Film': []},
     'Description': [ u'Sir Thomas Jones Woodward, OBE, known by his stage name Tom Jones, is a Welsh singer. He became...'],
     'Place of Birth': [u'Treforest'],
     'Siblings': [u'Shelia Woodward'],
     }
 # Printer
 def print_table(data):
+    # for key, values in data.iteritems():
+        # print key, ':', values, ':', len(values)
     for key, values in data.iteritems():
-        print key, ':', values, ':', len(values)
-    for key, values in data.iteritems():
-        print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
-        print  "| " + colwidth0.format(str(key)+' :') + "| ",
-        if(len(values)==1):
-            for i in xrange(len(values)):
-                if(len(values[i]) > whole):
-                    print
-                else:
-                    print colwidth1.format(values[i])+"|",
+        #if value is list, just print list
+        if (type(values) is list):
+            print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
+            print  "| " + colwidth0.format(str(key)+' :') + "| ",
+            # if list only contains one element, no newline needed
+            if(len(values)==1):
+                for one in xrange(len(values)):
+                    #auto break-line
+                    if(len(values[one]) > whole):
+                        a = str(values[one])
+                        list_s = [a[i:i+whole] for i in range(0, len(a), whole)]
+                        for i in xrange(len(list_s)):
+                            if(i==0):
+                                print colwidth1.format(list_s[i])+"|",
+                            else:
+                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[i])+"|",
+                    else:
+                        print colwidth1.format(values[one])+"|",
+                print ""
+            else:
+                #if multiple elements in list, print them in new lines
+                for i in xrange(len(values)):
+                    if(i==0):
+                        print colwidth1.format(values[i])+"|",
+                    else:
+                        print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i])+"|",
+                print ""
+        # if value is a dict, break column based on number on dicts
+
+
+        elif(type(values) is dict):
+            #print multi-header
+            print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
+            print  "| " + colwidth0.format(str(key)+' :') + "| ",
+            n = len (values)
+            tmp_colwidth = "{0:<"+str((whole-n+1)/n)+"}"
+            for keys in values:
+                print tmp_colwidth.format(str(keys)+ ' :') + "|",
             print ""
-        else:
-            for i in xrange(len(values)):
-                if(i==0):
-                    print colwidth1.format(values[i])+"|",
-                else:
-                    print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i])+"|",
-            print ""
-    print "|" + left_header*"-" + ((whole+3)*len(values))*"-" + "-|"
+            # print contents
+            for inner_key, inner_value in values:
+                print "\n|" + (1+left_header) * " " + "|  " + tmp_colwidth.format(list_s[i])+"|",
+
+
+
+
+
+
+
+
+
+
+
+
+    print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
+
+    # elif(type(values) is dict):
+
+
 
 
 
