@@ -1,6 +1,6 @@
 accepted_type_list = {
-	'/people/person': 'Person',
-	'/people/deceased_person': 'Person':
+    '/people/person': 'Person',
+    '/people/deceased_person': 'Person',
 	'/book/author': 'Author',
 	'/film/actor': 'Actor',
 	'/tv/tv_actor': 'Actor',
