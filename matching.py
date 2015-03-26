@@ -14,17 +14,17 @@ accepted_type_list = OrderedDict([
 ])
 
 information_map = OrderedDict([
-	('/people/person', {
-		'/type/object/name': 'Name',
-		'/people/person/date_of_birth': 'Birthday',
-		'/people/person/place_of_birth': 'Place of Birth',
-		'/people/person/sibling_s': {
+	('/people/person', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/people/person/date_of_birth', 'Birthday'),
+		('/people/person/place_of_birth', 'Place of Birth'),
+		('/people/person/sibling_s', {
 			'name': 'Siblings',
 			'children': {
 				'/people/sibling_relationship/sibling': 'Sibling',
 			},
-		},
-		'/people/person/spouse_s': {
+		}),
+		('/people/person/spouse_s', {
 			'name': 'Spouse(s)',
 			'children': {
 				'/people/marriage/spouse': 'Spouse Name',
@@ -32,50 +32,50 @@ information_map = OrderedDict([
 				'/people/marriage/to': 'Marriage To',
 				'/people/marriage/location_of_ceremony': 'Ceremony Location',
 			},
-		},
-		'/common/topic/description': 'Description',
-	}),
-	('/people/deceased_person', {
-		'/people/deceased_person/date_of_death': 'Death Date',
-		'/people/deceased_person/place_of_death': 'Death Place',
-		'/people/deceased_person/cause_of_death': 'Death Cause',
-	}),
-	('/book/author', {
-		'/book/author/works_written': 'Books',
-		'/book/book_subject/works': 'Books About The Author',
-		'/influence/influence_node/influenced': 'Influenced',
-		'/influence/influence_node/influenced_by': 'Influenced By',
-	}),
-	('/film/actor', {
-		'/film/actor/film': {
+		}),
+		('/common/topic/description', 'Description'),
+	])),
+	('/people/deceased_person', OrderedDict([
+		('/people/deceased_person/date_of_death', 'Death Date'),
+		('/people/deceased_person/place_of_death', 'Death Place'),
+		('/people/deceased_person/cause_of_death', 'Death Cause'),
+	])),
+	('/book/author', OrderedDict([
+		('/book/author/works_written', 'Books'),
+		('/book/book_subject/works', 'Books About The Author'),
+		('/influence/influence_node/influenced', 'Influenced'),
+		('/influence/influence_node/influenced_by', 'Influenced By'),
+	])),
+	('/film/actor', OrderedDict([
+		('/film/actor/film', {
 			'name': 'Films',
 			'children': {
 				'/film/performance/character': 'Character',
 				'/film/performance/film': 'Film',
 			},
-		},
-	}),
-	('/tv/tv_actor', {
-		'/tv/tv_actor/guest_roles': {
+		}),
+	])),
+	('/tv/tv_actor', OrderedDict([
+		('/tv/tv_actor/guest_roles', {
 			'name': 'TV Series',
 			'children': {
 				'/tv/tv_guest_role/character': 'Character',
 				'/tv/tv_guest_role/episodes_appeared_in': 'TV Series',
 			}
-		},
-		'/tv/tv_actor/starring_roles': {
+		}),
+		('/tv/tv_actor/starring_roles', {
 			'name': 'TV Series',
 			'children': {
 				'/tv/regular_tv_appearance/character': 'Character',
 				'/tv/regular_tv_appearance/series': 'TV Series',
 			},
-		},
-	}),
-	('/organization/organization_founder', {
-		'/organization/organization_founder/organizations_founded': 'Founded',
-	}),
-	('/business/board_member', {
-		'/business/board_member/leader_of': {
+		}),
+	])),
+	('/organization/organization_founder', OrderedDict([
+		('/organization/organization_founder/organizations_founded', 'Founded'),
+	])),
+	('/business/board_member', OrderedDict([
+		('/business/board_member/leader_of', {
 			'name': 'Leadership',
 			'children': {
 				'/organization/leadership/from': 'From',
@@ -84,8 +84,8 @@ information_map = OrderedDict([
 				'/organization/leadership/role': 'Role',
 				'/organization/leadership/title': 'Title',
 			},
-		},
-		'/business/board_member/organization_board_memberships': {
+		}),
+		('/business/board_member/organization_board_memberships', {
 			'name': 'Board Membership',
 			'children': {
 				'/organization/organization_board_membership/from': 'From',
@@ -94,29 +94,29 @@ information_map = OrderedDict([
 				'/organization/organization_board_membership/role': 'Role',
 				'/organization/organization_board_membership/title': 'Title',
 			},
-		},
-	}),
-	('/sports/sports_league', {
-		'/type/object/name': 'Name',
-		'/sports/sports_league/championship': 'Championship',
-		'/sports/sports_league/sport': 'Sport',
-		'/organization/organization/slogan': 'Slogan',
-		'/common/topic/official_website': 'Website',
-		'/common/topic/description': 'Description',
-		'/sports/sports_league/teams': {
+		}),
+	])),
+	('/sports/sports_league', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/sports/sports_league/championship', 'Championship'),
+		('/sports/sports_league/sport', 'Sport'),
+		('/organization/organization/slogan', 'Slogan'),
+		('/common/topic/official_website', 'Website'),
+		('/common/topic/description', 'Description'),
+		('/sports/sports_league/teams', {
 			'name': 'Teams',
 			'children': {
 				'/sports/sports_league_participation/team': 'Team',
 			},
-		},
-	}),
-	('/sports/sports_team', {
-		'/type/object/name': 'Name',
-		'/common/topic/description': 'Description',
-		'/sports/sports_team/sport': 'Sport',
-		'/sports/sports_team/arena_stadium': 'Arena',
-		'/sports/sports_team/championships': 'Championships',
-		'/sports/sports_team/coaches': {
+		}),
+	])),
+	('/sports/sports_team', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/common/topic/description', 'Description'),
+		('/sports/sports_team/sport', 'Sport'),
+		('/sports/sports_team/arena_stadium', 'Arena'),
+		('/sports/sports_team/championships', 'Championships'),
+		('/sports/sports_team/coaches', {
 			'name': 'Coaches',
 			'children': {
 				'/sports/sports_team_coach_tenure/coach': 'Name',
@@ -124,16 +124,16 @@ information_map = OrderedDict([
 				'/sports/sports_team_coach_tenure/from': 'From',
 				'/sports/sports_team_coach_tenure/to': 'To',
 			},
-		},
-		'/sports/sports_team/founded': 'Founded',
-		'/sports/sports_team/league': {
+		}),
+		('/sports/sports_team/founded', 'Founded'),
+		('/sports/sports_team/league', {
 			'name': 'League(s)',
 			'children': {
 				'/sports/sports_league_participation/league': 'League',
 			},
-		},
-		'/sports/sports_team/location' : 'Location',
-		'/sports/sports_team/roster': {
+		}),
+		('/sports/sports_team/location', 'Location'),
+		('/sports/sports_team/roster', {
 			'name': 'PlayerRoster',
 			'children': {
 				'/sports/sports_team_roster/player': 'Name',
@@ -142,9 +142,9 @@ information_map = OrderedDict([
 				'/sports/sports_team_roster/from': 'From',
 				'/sports/sports_team_roster/to': 'To',
 			},
-		},
-	}),
-	('/sports/professional_sports_team', {
+		}),
+	])),
+	('/sports/professional_sports_team', OrderedDict([
 		### empty
-	}),
+	])),
 ])
