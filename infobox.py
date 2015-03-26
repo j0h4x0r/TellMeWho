@@ -12,7 +12,6 @@ def main():
 
 
 #Infobox Creation
-
 def search(query):
     service_url = 'https://www.googleapis.com/freebase/v1/search'
     params = {
@@ -60,7 +59,12 @@ def assemble_infobox(data, typeid_list, information_map):
             if(type(info_values) is str):
                 tmp_text=[]
                 for text_list in data['property'][info_keys]['values']:
-                    tmp_text.append(text_list['text'])
+                    val = text_list['text']
+                    try:
+                        val = text_list['value']
+                    except KeyError:
+                        pass
+                    tmp_text.append(val)
                 result[info_values] = tmp_text
              # nested dict
             if(type(info_values) is dict):
@@ -70,7 +74,12 @@ def assemble_infobox(data, typeid_list, information_map):
                         tmp_text=[]
                         for text_list in data['property'][info_keys]['values']:
                             for inner_text_list in text_list['property'][nested_key]['values']:
-                                tmp_text.append(inner_text_list['text'])
+                                val = inner_text_list['text']
+                                try:
+                                    val = inner_text_list['value']
+                                except KeyError:
+                                    pass
+                                tmp_text.append(val)
                         result[info_values['name']] = tmp_text
                 # if nested property only has more than one key, add name as key
                 else:
@@ -80,7 +89,12 @@ def assemble_infobox(data, typeid_list, information_map):
                         try:
                             for text_list in data['property'][info_keys]['values']:
                                 for inner_text_list in text_list['property'][nested_key]['values']:
-                                    tmp_text.append(inner_text_list['text'])
+                                    val = inner_text_list['text']
+                                    try:
+                                        val = inner_text_list['value']
+                                    except KeyError:
+                                        pass
+                                    tmp_text.append(val)
                         except KeyError:
                             pass
                         result[info_values['name']][nested_value] = tmp_text

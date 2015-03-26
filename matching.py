@@ -37,7 +37,7 @@ information_map = {
 	},
 	'/people/deceased_person': {
 		'/people/deceased_person/date_of_death': 'Death Date',
-		'/people/deceased_person/place_of_burial': 'Death Place',
+		'/people/deceased_person/place_of_death': 'Death Place',
 		'/people/deceased_person/cause_of_death': 'Death Cause',
 	},
 	'/book/author': {

@@ -60,7 +60,7 @@ def print_table(data):
         if(len(values)==1):
             for i in xrange(len(values)):
                 if(len(values[i]) > whole):
-                    print 
+                    print
                 else:
                     print colwidth1.format(values[i])+"|",
             print ""
