@@ -1,23 +1,17 @@
 from collections import OrderedDict
-__author__ = 'CC'
-from collections import defaultdict
 from itertools import izip_longest
 
-total = defaultdict(list)
-
 # Column width
-whole=88
+whole=100
 one_half=30
 one_fourth=12
-left_header = 20
+left_header = 30
 colwidth0="{0:<"+str(left_header)+"}"
 colwidth1="{0:<"+str(whole)+"}"
 colwidth2="{0:<"+str(one_half)+"}"
 colwidth3="{0:<"+str(one_fourth)+"}"
 
 
-
-data = OrderedDict([('Description', [u'Elon Reeve Musk is a South Africa-born, Canadian American business magnate, engineer and investor. He is the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors, and chairman of SolarCity. He is the founder of SpaceX and a cofounder of PayPal, Tesla Motors, and Zip2. He has also envisioned a conceptual high-speed transportation system known as the Hyperloop.']), ('Name', [u'Elon Musk']), ('Place of Birth', [u'Pretoria']), ('Siblings', [u'Tosca Musk', u'Kimbal Musk']), ('Birthday', [u'1971-06-28']), ('Spouse(s)', [{'Marriage From': u'2000', 'Marriage To': u'2008', 'Ceremony Location': '', 'Spouse Name': u'Justine Musk'}, {'Marriage From': u'2010-09-25', 'Marriage To': u'2012', 'Ceremony Location': u'Dornoch Cathedral', 'Spouse Name': u'Talulah Riley'}]), ('Films', [{'Character': '', 'Film': u'Iron Man 2'}]), ('Founded', [u'PayPal', u'SpaceX', u'Zip2', u'X.com', u'Musk Foundation', u'Tesla Motors']), ('Leadership', [{'To': '', 'Organization': u'Tesla Motors', 'From': u'2008-10', 'Role': u'Chief Executive Officer', 'Title': u'Co-Founder, Chairman CEO and Product Architect'}, {'To': '', 'Organization': u'SpaceX', 'From': '', 'Role': u'Chief Executive Officer', 'Title': ''}]), ('Board Membership', [{'To': '', 'Organization': u'The Planetary Society', 'From': u'2003', 'Role': '', 'Title': ''}, {'To': '', 'Organization': u'Mahalo.com', 'From': '', 'Role': '', 'Title': ''}, {'To': '', 'Organization': u'Tesla Motors', 'From': u'2004-04', 'Role': '', 'Title': u'Chair'}, {'To': '', 'Organization': u'SpaceX', 'From': u'2002-06', 'Role': '', 'Title': u'CEO'}, {'To': '', 'Organization': u'X Prize Foundation', 'From': u'2005-01', 'Role': '', 'Title': ''}])])
 
 # Printer
 def print_table(data):
@@ -43,34 +37,52 @@ def print_table(data):
             print "\n|" + left_header*"-" + ((whole+3))*"-" + "-|"
             #print contents
             for ii in xrange(len(values)):
-                print "|" + (1+left_header) * " " + "| ",
+                lines_str = []
                 for inner_key, inner_value in values[ii].iteritems():
                     #last column auto-scaling
                     if(values[ii].keys().index(inner_key) == len(values[ii]) - 1):
                         #auto break-line
-                        if(len(inner_value) > (whole - 2*n + 2) / n):
+                        if(len(inner_value) > whole - (2+(whole - 2*n + 2) / n) * (n-1)):
                             a = str(inner_value)
-                            list_s = [a[i:i+(whole - 2*n + 2)] for i in range(0, len(a), (whole - 2*n + 2))]
-                            for i in xrange(len(list_s)):
-                                indexes = values[ii].keys().index(inner_key)
-                                print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + last_colwidth.format(list_s[i])+"|",
+                            list_s = [last_colwidth.format(a[i:i+(whole - (2+(whole - 2*n + 2) / n) * (n-1))]) for i in range(0, len(a), (whole - (2+(whole - 2*n + 2) / n) * (n-1)))]
+                            lines_str.append(list_s)
+                            # for i in xrange(len(list_s)):
+                            #     indexes = values[ii].keys().index(inner_key)
+                            #     print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + last_colwidth.format(list_s[i])+"|",
                         else:
-                            print last_colwidth.format(str(inner_value)) + "|",
+ 
+                            lines_str.append([last_colwidth.format(str(inner_value))])
+                            #print last_colwidth.format(str(inner_value)) + "|",
+
                     #previous columns
                     else:
                         #auto break-line
                         if(len(inner_value) > (whole - 2*n + 2) / n):
-                            a = str(inner_value)
-                            list_s = [a[i:i+((whole - 2*n + 2)/n)] for i in range(0, len(a), ((whole - 2*n + 2)/n))]
-
-                            for i in xrange(len(list_s)):
-                                indexes = values[ii].keys().index(inner_key)
-                                print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + tmp_colwidth.format(str(list_s[i]))+"|",
-                            # print "\n|" + left_header*"-" + ((whole+3))*"-" + "-|"
+                            a = (inner_value)
+                            list_s = [tmp_colwidth.format(a[i:i+((whole - 2*n + 2)/n)]) for i in range(0, len(a), ((whole - 2*n + 2)/n))]
+                            lines_str.append(list_s)
+                            # for i in xrange(len(list_s)):
+                            #     indexes = values[ii].keys().index(inner_key)
+                            #     print "\n|" + (1+left_header) * " " + "|  " + ((indexes) * ((whole - 2*n + 2) / n) + indexes) * " " + "|" + tmp_colwidth.format(str(list_s[i]))+"|",
+                            # # print "\n|" + left_header*"-" + ((whole+3))*"-" + "-|"
                         else:
-                            print tmp_colwidth.format(str(inner_value)) + "|",
+                            lines_str.append([tmp_colwidth.format(str(inner_value))])
+                            #print tmp_colwidth.format(str(inner_value)) + "|",
 
-                print ""
+                for tup in izip_longest(*lines_str):
+                    print "|" + (1+left_header) * " " + "| ",
+                    linestr = ''
+                    for i in range(len(tup)):
+                        if tup[i]:
+                            linestr += tup[i] + '| '
+                        else:
+                            if i == len(tup) - 1:
+                                linestr += ((whole - (2+(whole - 2*n + 2) / n) * (n-1)) * ' ') + '| '
+                            else:
+                                linestr += ((whole - 2*n + 2) / n) * ' ' + '| '
+                    print linestr
+                if(ii is not len(values)-1):
+                    print "|" + (left_header+2)*" " + ((whole+1))*"-" + "-|"
         # if value isn't dicts
         else:
             print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
@@ -80,13 +92,14 @@ def print_table(data):
                 for one in xrange(len(values)):
                     #auto break-line
                     if(len(values[one]) > whole):
-                        a = str(values[one])
+                        a = (values[one])
                         list_s = [a[i:i+whole] for i in range(0, len(a), whole)]
                         for i in xrange(len(list_s)):
                             if(i==0):
                                 print colwidth1.format(list_s[i])+"|",
                             else:
-                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[i])+"|",
+                               
+                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[i].encode('ascii', 'replace')) + "|",
                     else:
                         print colwidth1.format(values[one])+"|",
                 print ""
@@ -101,7 +114,4 @@ def print_table(data):
 
     print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
 
-
-
-# Let's print the dictionary
-print_table(data)
+ 
