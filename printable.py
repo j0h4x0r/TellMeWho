@@ -10,7 +10,7 @@ colwidth0="{0:<"+str(left_header)+"}"
 colwidth1="{0:<"+str(whole)+"}"
 colwidth2="{0:<"+str(one_half)+"}"
 colwidth3="{0:<"+str(one_fourth)+"}"
-colwidth4="{0:<"+str(whole+left_header+3)+"}"
+colwidth4="{0:<"+str(whole+left_header+2)+"}"
 
 
 
@@ -33,14 +33,14 @@ def print_table(data, *arglist):
 
     #print the rest
     for key, values in data.iteritems():
-    
+        #if value is list, just print list
         if len(values)==0:
             continue
         # if value is dicts, break column based on number on dicts
         elif(type(values[0]) is dict):
             #print multi-header
             print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
-            print  "| " + colwidth0.format(str(key.encode('ascii', 'ignore'))+' :') + "| ",
+            print  "| " + colwidth0.format(str(key)+' :') + "| ",
             n = len (values[0])
             tmp_colwidth = "{0:<"+str((whole - 2*n + 2) / n)+"}"
             last_colwidth = "{0:<"+str(whole - (2+(whole - 2*n + 2) / n) * (n-1))+"}"
@@ -58,7 +58,7 @@ def print_table(data, *arglist):
                     if(values[ii].keys().index(inner_key) == len(values[ii]) - 1):
                         #auto break-line
                         if(len(inner_value) > whole - (2+(whole - 2*n + 2) / n) * (n-1)):
-                            a = str(inner_value.encode('ascii', 'ignore'))
+                            a = str(inner_value)
                             list_s = [last_colwidth.format(a[i:i+(whole - (2+(whole - 2*n + 2) / n) * (n-1))]) for i in range(0, len(a), (whole - (2+(whole - 2*n + 2) / n) * (n-1)))]
                             lines_str.append(list_s)
                             # for i in xrange(len(list_s)):
@@ -98,10 +98,10 @@ def print_table(data, *arglist):
                     print linestr
                 if(ii is not len(values)-1):
                     print "|" + (left_header+2)*" " + ((whole+1))*"-" + "-|"
-        #if value is list, just print list
+        # if value isn't dicts
         else:
             print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
-            print  "| " + colwidth0.format(str(key.encode('ascii', 'ignore'))+' :') + "| ",
+            print  "| " + colwidth0.format(str(key)+' :') + "| ",
             # if list only contains one element, no newline needed
             if(len(values)==1):
                 for one in xrange(len(values)):
@@ -111,22 +111,40 @@ def print_table(data, *arglist):
                         list_s = [a[i:i+whole] for i in range(0, len(a), whole)]
                         for i in xrange(len(list_s)):
                             if(i==0):
-                                print colwidth1.format(list_s[i])+"|",
+                                print colwidth1.format(list_s[i].encode('ascii', 'ignore'))+"|",
                             else:
                                
-                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[i].encode('ascii', 'replace')) + "|",
+                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[i].encode('ascii', 'ignore')) + "|",
                     else:
-                        print colwidth1.format(values[one])+"|",
-                print ""
+                        print colwidth1.format(values[one].encode('ascii', 'ignore'))+"|",
+
             else:
                 #if multiple elements in list, print them in new lines
                 for i in xrange(len(values)):
                     if(i==0):
-                        print colwidth1.format(values[i].encode('ascii','ignore'))+"|",
+                        #auto-break line
+                        if(len(values[i]) > (whole ) ):
+                            a = (values[i].encode('ascii', 'ignore'))
+                            list_s = [a[i:i+whole] for i in range(0, len(a), whole)]
+                            for j in xrange(len(list_s)):
+                                if(j==0):
+                                    print colwidth1.format(list_s[j].encode('ascii', 'ignore'))+"|",
+                                else:
+                                    print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[j].encode('ascii', 'ignore')) + "|",
+                            print "\n|" + (1+left_header) * " " + "|" + ((whole+2))*"-" + "|",
+                        else:
+                            print colwidth1.format(values[i].encode('ascii', 'ignore'))+"|",
                     else:
-                        print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i].encode('ascii', 'replace'))+"|",
-                print ""
+
+                        #auto-break line
+                        if(len(values[i]) > (whole ) ):
+                            a = (values[i].encode('ascii', 'ignore'))
+                            list_s = [a[i:i+whole] for i in range(0, len(a), whole)]
+                            for j in xrange(len(list_s)):
+                                print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(list_s[j].encode('ascii', 'ignore')) + "|",
+                            print "\n|" + (1+left_header) * " " + "|" + ((whole+2))*"-" + "|",
+                        else:
+                            print "\n|" + (1+left_header) * " " + "|  " + colwidth1.format(values[i].encode('ascii', 'ignore'))+"|",
+            print ""
 
     print "|" + left_header*"-" + ((whole+3))*"-" + "-|"
-
- 

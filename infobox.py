@@ -6,19 +6,13 @@ from printable import print_table
 api_key = ''
 # api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
-<<<<<<< HEAD
-def main(api_k, query):
-    global api_key 
-=======
+
 def run(api_k, query):
     global api_key
->>>>>>> a1cf3eef8db4af0e06f83cc1cc2d6bb6feebaf12
     api_key = api_k
     data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
     result,type_list_name = assemble_infobox(data, type_list, matching.information_map,type_list_name)
     print_table(result,type_list_name)
-
-
 
 #Infobox Creation
 def search(query):
@@ -48,11 +42,31 @@ def topic(result_mid, accepted_type_list):
             for re_types in re_types_list:
                 if(re_types['id'].encode("ascii") == ac_types):
                     type_list.append(ac_types)
-                    type_list_name.append(re_types['text'])
-        valid_type_list = valid_topic(type_list, accepted_type_list)
+
+        valid_type = valid_topic(type_list, accepted_type_list)
+        valid_type_list = cleanup_type(valid_type)
+        for ac_types in valid_type_list:
+             type_list_name.append(accepted_type_list[ac_types])
         if len(valid_type_list) is not 0:
             return topic, valid_type_list, type_list_name
     return {}, [], []
+
+def cleanup_type(valid_type_list):
+    set_A = ['/people/person','/people/deceased_person','/book/author','/film/actor','/tv/tv_actor','/organization/organization_founder','/business/board_member']
+    set_B = ['/sports/sports_league']
+    set_C = ['/sports/sports_team','/sports/professional-_sports_team']
+    IsPpl = True
+    for item in valid_type_list:
+        if item in set_B or item in set_C:
+            IsPpl = False
+    if not IsPpl:
+        for item in valid_type_list:
+            if item in set_A:
+                valid_type_list.remove(item)
+    return valid_type_list
+
+
+
 
 def valid_topic(type_list, accepted_type_list):
     valid_type_list=[]
@@ -117,38 +131,38 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
                     #     result[info_values['name']][nested_value] = tmp_text
 
                     result[info_values['name']] = []
-                    for text_list in data['property'][info_keys]['values']:
-                        tmp_dict = {}
-                        for nested_key, nested_value in info_values['children'].iteritems():
-                            try:
-                                if len(text_list['property'][nested_key]['values']) == 0:
-                                    val = ''
-                                else:
-                                    inner_most_dict = text_list['property'][nested_key]['values'][0]
-                                    val = inner_most_dict['text']
-                                    try:
-                                        val = inner_most_dict['value']
-                                    except KeyError:
-                                        pass
+                    try:
+                        for text_list in data['property'][info_keys]['values']:
+                            tmp_dict = {}
+                            for nested_key, nested_value in info_values['children'].iteritems():
+                                try:
+                                    if len(text_list['property'][nested_key]['values']) == 0:
+                                        val = ''
+                                    else:
+                                        inner_most_dict = text_list['property'][nested_key]['values'][0]
+                                        val = inner_most_dict['text']
+                                        try:
+                                            val = inner_most_dict['value']
+                                        except KeyError:
+                                            pass
 
-                                tmp_dict[nested_value] = val.replace('\n', ' ')
+                                    tmp_dict[nested_value] = val.replace('\n', ' ')
 
-                            except KeyError:
-                                tmp_dict[nested_value] = ''
-                        result[info_values['name']].append(tmp_dict)
+                                except KeyError:
+                                    tmp_dict[nested_value] = ''
+                            result[info_values['name']].append(tmp_dict)
+                    except KeyError:
+                        pass
+
 
     return result,type_list_name
 
-
-<<<<<<< HEAD
-if __name__ == '__main__': main()
-=======
-
+ 
 
 #Question Answering
 
 
 
-if __name__ == '__main__': run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Tolkien')
->>>>>>> a1cf3eef8db4af0e06f83cc1cc2d6bb6feebaf12
+if __name__ == '__main__': run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Robert Downey Jr.')
+ 
 
