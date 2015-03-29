@@ -1,0 +1,264 @@
+COMS E6111 Project2
+============================================================================
+*Group members
+
+Di Li - dl2943
+Bingjie Sun - bs2888
+============================================================================
+*List of files
+
+main.py - main code for 3 modes of input 
+matching.py - mapping configuration from querying Freebase API properties to 
+			  our program
+printable.py - print customized table 
+question.py -  MQLquery for part 2
+README - readme file
+transcript.txt - Sample run results
+
+============================================================================
+*How to run?
+
+- Dependency libraries (Python):
+urllib
+json
+OrderedDict
+
+- To run the code:
+
+Basic mode : If you want to input a single query in string format "<q>"
+	-k <account_key> -q <query> -t [infobox|question]
+
+File input mode : If you have an input file with queries on each line
+	-k <account_key> -f <file_with_queries> -t [infobox|question]
+
+Interactive mode : If you want to keep inputing in terminal until you are done
+	-k <account_key>
+
+- GoogleAPI Search Account Key
+
+AIzaSyB-LJI6QQ9P_D1WyKuCLT6yABME20lrYwM
+
+- requests per second per user
+
+Same as default, 10
+ 
+============================================================================
+*Internal Project Design
+
+The main.py takes in five type of input (k,q,t,f,h), we used check_args() function 
+to extract the input mode and fields, also we provided instructions on how to 
+use the system through usage() function.
+
+For mode 1, we choose to run either infobox.py or question.py depending on the
+input parameter -t. If the user want to query infobox, the system pass api key 
+and query to run(api_k, query) function inside infobox.py.
+
+For mode 2, similar to mode 1, we run either infobox.py or question.py depending 
+on the input parameter -t, for each line of the input file.
+
+For mode 3, we wrote an infinite loop which will only break on KeyboardInterrupt 
+(Control+D on mac). Inside each loop, we take in a raw input and check if its a 
+"Who created"/"who created" question or others. If former, we call questions.py
+and if latter we call infobox.py.
+
+	
+How infobox.py runs - 
+
+First the search(query) function was called, quering 
+Freebase API and return a list of mids, which may contain more types than
+required. So we have two helper functions valid_topic() and cleanup_type(), 
+the former for filtering out the 6 categories amongst all mids, and the 
+latter for resolving conflicted catergories (eg. Author and League).
+Using the accepted mids, topic() function query Freebase API and get the data
+in Dict format.
+Then, we call assemble_infobox() to format the Dict raw data into our 
+own design - a Dict of lists, where lists can consist of text values or 
+a nested layer of dicts. Inside these nested dicts, each key and value 
+are a row of values of all sub-field under the outer layer. We used OrderedDict
+for this design, so that each output could have a certain output format. Also,
+for some entities that does not contain all the properties, we just put an 
+empty list in the corresponding position.
+At last, printable() function is called to display the data. 
+
+How question.py runs - 
+
+First the extractX() function was called to get the query word, we only 
+consider "Who created"/"who created" as valid input, and only query the API
+with the given two types ('Author', 'BusinessPerson').
+Then, we call MQLquery() function to query the API. Noticed that same as the 
+reference program, we provide table-like output for interactive mode, and text
+output for Basic and Fileinput mode. This distinction was implemented simply 
+by calling printable() function for mode 3, whereas we just output lines of 
+concatenated strings for mode 1 and 2.
+
+
+How printable.py works - 
+
+This is a purly coded from scrach function for displaying beautiful tables and
+allowing nested columns. To make the table wider just change the whole parameter.
+The function first checks if the header data was passed in as parameter, so that 
+we can print Name+Categories for infobox, and no such header for questions.
+Then, for each key and value(list) in the given Dict, we check the type of (list[0]).
+If it is a Dict, then we have to divide the columns in terms of the nested fields we 
+have. If not, we can simply print out the list values. All of these functionalities
+have taken automatically breakline into account to prevent table dsplay overflow. 
+
+============================================================================
+*Additional Points
+
+mapping list: Convert Freebase Properties to our data structure, from matching.py
+
+- The mapping we used to filter out only six categories of entities:
+
+accepted_type_list = OrderedDict([
+    ('/people/person', 'Person'),
+    ('/people/deceased_person', 'Person'),
+	('/book/author', 'Author'),
+	('/film/actor', 'Actor'),
+	('/tv/tv_actor', 'Actor'),
+	('/organization/organization_founder', 'BusinessPerson'),
+	('/business/board_member', 'BusinessPerson'),
+	('/sports/sports_league', 'League'),
+	('/sports/sports_team', 'SportsTeam'),
+	('/sports/professional-_sports_team', 'SportsTeam'),
+])
+
+- The mapping we used to match properties with our data structure ( OrderedDictionary of lists )
+
+information_map = OrderedDict([
+	('/people/person', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/people/person/date_of_birth', 'Birthday'),
+		('/people/person/place_of_birth', 'Place of Birth'),
+		('/people/person/sibling_s', {
+			'name': 'Siblings',
+			'children': {
+				'/people/sibling_relationship/sibling': 'Sibling',
+			},
+		}),
+		('/people/person/spouse_s', {
+			'name': 'Spouse(s)',
+			'children': {
+				'/people/marriage/spouse': 'Spouse Name',
+				'/people/marriage/from': 'Marriage From',
+				'/people/marriage/to': 'Marriage To',
+				'/people/marriage/location_of_ceremony': 'Ceremony Location',
+			},
+		}),
+		('/common/topic/description', 'Description'),
+	])),
+	('/people/deceased_person', OrderedDict([
+		('/people/deceased_person/date_of_death', 'Death Date'),
+		('/people/deceased_person/place_of_death', 'Death Place'),
+		('/people/deceased_person/cause_of_death', 'Death Cause'),
+	])),
+	('/book/author', OrderedDict([
+		('/book/author/works_written', 'Books'),
+		('/book/book_subject/works', 'Books About The Author'),
+		('/influence/influence_node/influenced', 'Influenced'),
+		('/influence/influence_node/influenced_by', 'Influenced By'),
+	])),
+	('/film/actor', OrderedDict([
+		('/film/actor/film', {
+			'name': 'Films',
+			'children': {
+				'/film/performance/character': 'Character',
+				'/film/performance/film': 'Film',
+			},
+		}),
+	])),
+	('/tv/tv_actor', OrderedDict([
+		('/tv/tv_actor/guest_roles', {
+			'name': 'TV Series',
+			'children': {
+				'/tv/tv_guest_role/character': 'Character',
+				'/tv/tv_guest_role/episodes_appeared_in': 'TV Series',
+			}
+		}),
+		('/tv/tv_actor/starring_roles', {
+			'name': 'TV Series',
+			'children': {
+				'/tv/regular_tv_appearance/character': 'Character',
+				'/tv/regular_tv_appearance/series': 'TV Series',
+			},
+		}),
+	])),
+	('/organization/organization_founder', OrderedDict([
+		('/organization/organization_founder/organizations_founded', 'Founded'),
+	])),
+	('/business/board_member', OrderedDict([
+		('/business/board_member/leader_of', {
+			'name': 'Leadership',
+			'children': {
+				'/organization/leadership/from': 'From',
+				'/organization/leadership/to': 'To',
+				'/organization/leadership/organization': 'Organization',
+				'/organization/leadership/role': 'Role',
+				'/organization/leadership/title': 'Title',
+			},
+		}),
+		('/business/board_member/organization_board_memberships', {
+			'name': 'Board Membership',
+			'children': {
+				'/organization/organization_board_membership/from': 'From',
+				'/organization/organization_board_membership/to': 'To',
+				'/organization/organization_board_membership/organization': 'Organization',
+				'/organization/organization_board_membership/role': 'Role',
+				'/organization/organization_board_membership/title': 'Title',
+			},
+		}),
+	])),
+	('/sports/sports_league', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/sports/sports_league/championship', 'Championship'),
+		('/sports/sports_league/sport', 'Sport'),
+		('/organization/organization/slogan', 'Slogan'),
+		('/common/topic/official_website', 'Website'),
+		('/common/topic/description', 'Description'),
+		('/sports/sports_league/teams', {
+			'name': 'Teams',
+			'children': {
+				'/sports/sports_league_participation/team': 'Team',
+			},
+		}),
+	])),
+	('/sports/sports_team', OrderedDict([
+		('/type/object/name', 'Name'),
+		('/common/topic/description', 'Description'),
+		('/sports/sports_team/sport', 'Sport'),
+		('/sports/sports_team/arena_stadium', 'Arena'),
+		('/sports/sports_team/championships', 'Championships'),
+		('/sports/sports_team/coaches', {
+			'name': 'Coaches',
+			'children': {
+				'/sports/sports_team_coach_tenure/coach': 'Name',
+				'/sports/sports_team_coach_tenure/position': 'Position',
+				'/sports/sports_team_coach_tenure/from': 'From',
+				'/sports/sports_team_coach_tenure/to': 'To',
+			},
+		}),
+		('/sports/sports_team/founded', 'Founded'),
+		('/sports/sports_team/league', {
+			'name': 'League(s)',
+			'children': {
+				'/sports/sports_league_participation/league': 'League',
+			},
+		}),
+		('/sports/sports_team/location', 'Location'),
+		('/sports/sports_team/roster', {
+			'name': 'PlayerRoster',
+			'children': {
+				'/sports/sports_team_roster/player': 'Name',
+				'/sports/sports_team_roster/position': 'Position',
+				'/sports/sports_team_roster/number': 'Number',
+				'/sports/sports_team_roster/from': 'From',
+				'/sports/sports_team_roster/to': 'To',
+			},
+		}),
+	])),
+	('/sports/professional_sports_team', OrderedDict([
+		### empty
+	])),
+])
+ 
+============================================================================

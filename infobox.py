@@ -21,11 +21,13 @@ def search(query):
         'query': query,
         'key': api_key}
     url = service_url + '?' + urllib.urlencode(params)
-    response = json.loads(urllib.urlopen(url).read().encode("ascii"))
+    response = json.loads(urllib.urlopen(url).read().encode("ascii"))['result']
     result_mid = []
-    for result in response['result']:
+
+    for result in response:
         result_mid.append(result['mid'])
     return result_mid
+ 
 
 def topic(result_mid, accepted_type_list):
     service_url = 'https://www.googleapis.com/freebase/v1/topic'

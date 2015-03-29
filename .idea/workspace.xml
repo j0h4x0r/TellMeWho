@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9dd0d12-ba5f-49d2-99f5-e75edb40adb3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/infobox.py" afterPath="$PROJECT_DIR$/infobox.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/printable.py" afterPath="$PROJECT_DIR$/printable.py" />
-    </list>
+    <list default="true" id="f9dd0d12-ba5f-49d2-99f5-e75edb40adb3" name="Default" comment="" />
     <ignored path="TellMeWho.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
