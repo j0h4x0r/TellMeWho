@@ -3,9 +3,8 @@ import matching
 import pprint
 from collections import OrderedDict
 from printable import print_table
-api_key = ''
-# api_key = 'AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg'
 
+api_key = ''
 
 def run(api_k, query):
     global api_key
@@ -165,6 +164,6 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
 
 
 
-if __name__ == '__main__': run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Robert Downey Jr.')
+if __name__ == '__main__': run('key', 'Robert Downey Jr.')
  
 

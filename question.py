@@ -100,6 +100,6 @@ def MQLquery(x, ans_type, mode):
 	return result
 
 def main():
-	run('AIzaSyDMaf8g5AnI_OI7jR3ck5VVR2tf8LWmhQg', 'Who created Microsoft?')
+	run('key', 'Who created Microsoft?')
 
 if __name__ == '__main__': main()

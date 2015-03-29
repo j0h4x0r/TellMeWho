@@ -11,7 +11,6 @@ def main():
 		usage()
 		sys.exit(2)
 	opt_dict, mode = check_args(opts)
-	print opt_dict
 	api_key = opt_dict['k']
 	# run according to mode
 	if mode == 1:
