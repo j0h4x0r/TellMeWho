@@ -28,7 +28,7 @@ def search(query):
         result_mid.append(result['mid'])
     return result_mid
  
-
+#return collected raw data and type list
 def topic(result_mid, accepted_type_list):
     service_url = 'https://www.googleapis.com/freebase/v1/topic'
     params = {
@@ -55,6 +55,7 @@ def topic(result_mid, accepted_type_list):
             return topic, valid_type_list, type_list_name
     return {}, [], []
 
+#detect conflict in types and keep only reasonable ones
 def cleanup_type(valid_type_list):
     set_A = ['/people/person','/people/deceased_person','/book/author','/film/actor','/tv/tv_actor','/organization/organization_founder','/business/board_member']
     set_B = ['/sports/sports_league']
@@ -70,9 +71,7 @@ def cleanup_type(valid_type_list):
 
     return valid_type_list
 
-
-
-
+#select valid type from compaing between both list
 def valid_topic(type_list, accepted_type_list):
     valid_type_list=[]
     for types in type_list:
@@ -80,6 +79,7 @@ def valid_topic(type_list, accepted_type_list):
             valid_type_list.append(types)
     return valid_type_list
 
+#transoform raw data into our data structure
 def assemble_infobox(data, typeid_list, information_map,type_list_name):
     result = OrderedDict()
     for one_type in typeid_list:

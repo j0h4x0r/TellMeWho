@@ -13,7 +13,7 @@ matching.py - mapping configuration from querying Freebase API properties to
 printable.py - print customized table 
 question.py -  MQLquery for part 2
 README - readme file
-transcript.txt - Sample run results
+transcript.txt - Sample run results (please view this full screen for proper table views)
 
 ============================================================================
 *How to run?
