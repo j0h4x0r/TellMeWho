@@ -11,7 +11,7 @@ def run(key, question, mode):
 	api_key = key
 	x = extractX(question)
 	if x == '':
-		print 'Wrong Question!'
+		print 'Illegal Question!'
 		return
 	type_list = findType(x)
 	result = []
@@ -20,6 +20,9 @@ def run(key, question, mode):
 	result.sort()
 	#print result
 	#result.insert(0, ('Name', ''))
+	if len(result) == 0:
+		print 'It seems no one created [' + x + ']'
+		return
 	if mode == 3:
 		print_table(OrderedDict(result))
 	else:
@@ -34,7 +37,7 @@ def extractX(question):
 		tokens = question.split()[2:]
 		for t in tokens:
 			x += t.strip('?') + ' '
-		x.strip()
+		x = x.strip()
 	return x
 
 def findType(x):
