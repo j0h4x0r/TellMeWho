@@ -26,7 +26,7 @@ def run(key, question, mode):
 		counter = 0
 		for item in result:
 			counter += 1
-			print str(counter) + '. ' + item
+			print str(counter) + '. ' + item.encode('ascii', 'ignore')
 
 def extractX(question):
 	x = ''

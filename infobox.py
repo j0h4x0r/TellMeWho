@@ -10,6 +10,7 @@ def run(api_k, query):
     global api_key
     api_key = api_k
     data, type_list,  type_list_name= topic(search(query), matching.accepted_type_list)
+
     result,type_list_name = assemble_infobox(data, type_list, matching.information_map,type_list_name)
     print_table(result,type_list_name)
 
@@ -20,7 +21,7 @@ def search(query):
         'query': query,
         'key': api_key}
     url = service_url + '?' + urllib.urlencode(params)
-    response = json.loads(urllib.urlopen(url).read().encode("ascii"))['result']
+    response = json.loads(urllib.urlopen(url).read())['result']
     result_mid = []
 
     for result in response:
@@ -46,9 +47,11 @@ def topic(result_mid, accepted_type_list):
 
         valid_type = valid_topic(type_list, accepted_type_list)
         valid_type_list = cleanup_type(valid_type)
+        print valid_type_list
         for ac_types in valid_type_list:
              type_list_name.append(accepted_type_list[ac_types])
-        if len(valid_type_list) is not 0:
+        type_list_name = list(set(type_list_name))
+        if len(type_list_name) is not 0:
             return topic, valid_type_list, type_list_name
     return {}, [], []
 
@@ -64,6 +67,7 @@ def cleanup_type(valid_type_list):
         for item in valid_type_list:
             if item in set_A:
                 valid_type_list.remove(item)
+
     return valid_type_list
 
 
@@ -93,7 +97,8 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
                             pass
                         tmp_text.append(val.replace('\n', ' '))
                 except KeyError:
-                    tmp_text.append('')
+                    pass
+                    # tmp_text.append('')
                 result[info_values] = tmp_text
              # nested dict
             if(type(info_values) is dict):
@@ -140,14 +145,20 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
                                     if len(text_list['property'][nested_key]['values']) == 0:
                                         val = ''
                                     else:
-                                        inner_most_dict = text_list['property'][nested_key]['values'][0]
-                                        val = inner_most_dict['text']
-                                        try:
-                                            val = inner_most_dict['value']
-                                        except KeyError:
-                                            pass
 
-                                    tmp_dict[nested_value] = val.replace('\n', ' ')
+                                        total=''
+
+                                        for inner_most_dict in text_list['property'][nested_key]['values']:
+                            
+                                            val = inner_most_dict['text']
+                                            try:
+                                                val = inner_most_dict['value']
+                                            except KeyError:
+                                                pass
+
+                                            total+=val + ","
+
+                                    tmp_dict[nested_value] = total.strip(",").replace('\n', ' ')
 
                                 except KeyError:
                                     tmp_dict[nested_value] = ''
@@ -164,6 +175,6 @@ def assemble_infobox(data, typeid_list, information_map,type_list_name):
 
 
 
-if __name__ == '__main__': run('key', 'Robert Downey Jr.')
+if __name__ == '__main__': run('AIzaSyB-LJI6QQ9P_D1WyKuCLT6yABME20lrYwM', 'NFL')
  
 
