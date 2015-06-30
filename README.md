@@ -52,7 +52,7 @@ First the `extractX()` function was called to get the query word, we only consid
 
 Then, we call `MQLquery()` function to query the API. Noticed that same as the reference program, we provide table-like output for interactive mode, and text output for Basic and Fileinput mode. This distinction was implemented simply by calling `printable()` function for mode 3, whereas we just output lines of concatenated strings for mode 1 and 2.
 
-### How printable.py works
+### How `printable.py` works
 
 This is a purely coded from scratch function for displaying beautiful tables and allowing nested columns. To make the table wider just change the whole parameter. The function first checks if the header data was passed in as parameter, so that we can print Name+Categories for infobox, and no such header for questions.
 
