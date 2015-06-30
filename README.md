@@ -16,16 +16,17 @@ Search engines exploit knowledge graphs to provide meaningful and often "structu
 ### To run the code:
 
 * Basic mode : If you want to input a single query in string format "<q>"
-
-> -k <account_key> -q <query> -t [infobox|question]
-
+```
+-k <account_key> -q <query> -t [infobox|question]
+```
 * File input mode : If you have an input file with queries on each line
-
-> -k <account_key> -f <file_with_queries> -t [infobox|question]
-
+```
+-k <account_key> -f <file_with_queries> -t [infobox|question]
+```
 * Interactive mode : If you want to keep inputing in terminal until you are done
-
-> -k <account_key>
+```
+ -k <account_key>
+```
 
 ## System Design
 
