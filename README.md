@@ -46,7 +46,7 @@ Then, we call `assemble_infobox()` to format the Dict raw data into our own desi
 
 At last, `printable()` function is called to display the data. 
 
-### How question.py runs
+### How `question.py` runs
 
 First the `extractX()` function was called to get the query word, we only consider "Who created"/"who created" as valid input, and only query the API with the given two types ('Author', 'BusinessPerson').
 
